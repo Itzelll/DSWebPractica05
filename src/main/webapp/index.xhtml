@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <p:growl id="growl" showDetail="true" />
+            <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
+            <p:panel header="Login" >
+                <div class="card">
+                    <span class="ui-float-label">
+                        <p:outputLabel for="txtIdVenta" value="Venta"/>
+                        <p:inputText id="txtIdVenta" value="#{beanIndex.venta.idventa}"/>
+                    </span>
+                    <br></br>
+                    <div class="ui-float-label">
+                        <p:outputLabel for="dpfecha" value="Fecha" />
+                        <p:datePicker id="dpfecha" value="#{beanIndex.venta.fecha}" showIcon="true" />
+                    </div>
+                    <br></br>
+                    <span class="ui-float-label">
+                        <p:outputLabel value="Total"/>
+                        <p:inputText id="total" value="#{beanIndex.venta.total}"/>                        
+                    </span>
+                    <br></br>
+                    <span class="ui-float-label">
+                        <p:commandButton actionListener="#{beanIndex.mostrar()}" update="growl" value="Mostrar" styleClass="mr-2" style="width: 10rem"/>
+                    </span>
+                    <br></br>
+                    <div class="card">
+                        <p:growl id="msgs" showDetail="true"/>
+                        
+                        <div>
+                            <div>
+                                <p:commandButton value="Agregar Producto" process="@this" update=":form:msgs"
+                                                 action="#{beanIndex.addRow()}" oncomplete="PF('detalleVenta').addRow()"
+                                                 styleClass="mr-2" style="width: 10rem"/>
+                            </div>
+                        </div>
+                        
+                        <p:dataTable id="detalleVenta" widgetVar="detalleVenta" var="producto" value="#{beanIndex.venta.ventasDetalle}"
+                                     editable="true">
+                            <f:facet name="header">
+                                Agrega productos a la tabla
+                            </f:facet>
+
+                            <p:ajax event="rowEdit" listener="#{dtAddRowView.onRowEdit}" update=":form:msgs"/>
+                            <p:ajax event="rowEditCancel" listener="#{dtAddRowView.onRowCancel}" update=":form:msgs"/>
+
+                            <p:column headerText="IdProducto">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{producto.idProducto}"/></f:facet>
+                                    <f:facet name="input"><p:inputText id="modelInput" value="#{producto.idProducto}"
+                                                                       style="width:100%"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Descripcion">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{producto.descripcion}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{producto.descripcion}" style="width:100%"
+                                                                       label="Status"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Precio">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{producto.precio}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{producto.precio}" style="width:100%"
+                                                                       label="Price"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            
+                            <p:column headerText="Cantidad">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{producto.cantidad}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{producto.cantidad}" style="width:100%"
+                                                                       label="Cant"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column style="width:6rem">
+                                <p:rowEditor/>
+                            </p:column>
+                        </p:dataTable>
+                        
+                    </div>
+                </div>
+            </p:panel>
+            <br></br>            
+            
+        </h:form>
+    </h:body>
+</html>
+
