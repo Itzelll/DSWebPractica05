@@ -33,6 +33,16 @@ public class BeanIndex implements Serializable {
 //    private Usuario usr = new Usuario();
     
     private Venta venta = new Venta();
+    private VentaDetalle detalle = new VentaDetalle();
+
+    public VentaDetalle getDetalle() {
+        return detalle;
+    }
+
+    public void setDetalle(VentaDetalle detalle) {
+        this.detalle = detalle;
+    }
+    
 
     public Venta getVenta() {
         return venta;
@@ -111,13 +121,26 @@ public class BeanIndex implements Serializable {
     }
     
     public void addRow(){
+//        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+//        Transaction t = session.beginTransaction();
+        
         VentaDetalle d1=new VentaDetalle();
-        d1.setCantidad(10);
-        d1.setDescripcion("jabon");
-        d1.setPrecio(new BigDecimal("10"));
+        d1.setCantidad(detalle.getCantidad());
+        d1.setDescripcion(detalle.getDescripcion());
+        d1.setPrecio(detalle.getPrecio());
         d1.setIdDetalleVenta(1L);
         
         venta.getVentasDetalle().add(d1);
+        
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto agregado", "El producto se ha agregado a la lista.");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+        
+//        session.save(d1);
+//        addMessage(FacesMessage.SEVERITY_INFO, "Atencion", "Se conecto a la base de datos");
+//        Logger.getLogger(BeanIndex.class.getName()).log(Level.INFO, "Se conecto");
+//        t.commit();
+//        session.close();
+        
     }
     
 }
