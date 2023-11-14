@@ -2,6 +2,6 @@
 <Context path="/DSWeb_Practica05">
     <Resource name="jdbc/mydb" auth="Container" type="javax.sql.DataSource"
                maxActive="100" maxIdle="30" maxWait="10000"
-               username="itzelll" password="123456" driverClassName="org.postgresql.Driver"
+               username="yacruz" password="YAHIRJE02" driverClassName="org.postgresql.Driver"
                url="jdbc:postgresql://localhost:5432/mydb"/>
 </Context>

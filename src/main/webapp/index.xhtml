@@ -34,9 +34,10 @@
                         <p:inputText id="productQuantity" value="#{beanIndex.detalle.cantidad}" required="true"/>
                     </span>
                     <br></br>
-                    <p:commandButton actionListener="#{beanIndex.addRow()}" update="growl" value="Save Product" styleClass="mr-2" style="width: 10rem"/>
+                    <p:commandButton actionListener="#{beanIndex.guardar()}" update="growl" value="Save Product" styleClass="mr-2" style="width: 10rem"/>
                     <br></br>
-                    
+
+
                     <div class="card">
                         <p:growl id="msgs" showDetail="true"/>
 
@@ -50,15 +51,15 @@
                     </div>
                 </div>
             </p:panel>
-            
+
             <p:dataTable id="detalleVenta" widgetVar="detalleVenta" var="producto" value="#{beanIndex.venta.ventasDetalle}"
                          editable="true">
                 <f:facet name="header">
                     Agrega productos a la tabla
                 </f:facet>
 
-                <p:ajax event="rowEdit" listener="#{dtAddRowView.onRowEdit}" update=":form:msgs"/>
-                <p:ajax event="rowEditCancel" listener="#{dtAddRowView.onRowCancel}" update=":form:msgs"/>
+                <p:ajax event="rowEdit" listener="#{beanIndex.onRowEdit}" update=":form:msgs"/>
+                <p:ajax event="rowEditCancel" listener="#{beanIndex.onRowCancel}" update=":form:msgs"/>
 
                 <p:column headerText="IdProducto">
                     <p:cellEditor>
@@ -91,7 +92,11 @@
                                                            label="Cant"/></f:facet>
                     </p:cellEditor>
                 </p:column>
-
+                <p:column headerText="Acciones">
+                    <p:commandButton value="Borrar" icon="pi pi-trash" 
+                                     actionListener="#{beanIndex.borrarDetalle(detalle)}" 
+                                     update=":form:msgs"/>
+                </p:column>
                 <p:column style="width:6rem">
                     <p:rowEditor/>
                 </p:column>
