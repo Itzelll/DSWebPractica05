@@ -25,6 +25,7 @@ import javax.sql.DataSource;
 import javax.transaction.Transactional;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -141,6 +142,34 @@ public class BeanIndex implements Serializable {
         
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto agregado", "El producto se ha agregado a la lista.");
         FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    
+    public void onRowEdit(RowEditEvent event){
+        // Obtener el objeto editado desde el evento
+        VentaDetalle editedObject = (VentaDetalle) event.getObject();
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+
+            // Actualizar el objeto en la base de datos
+//            session.update(editedObject.setDescripcion(detalle.getDescripcion()));
+            session.update(editedObject);
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al actualizar en la base de datos", null);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+
+        FacesMessage msg = new FacesMessage("Fila editada y actualizada en la base de datos", "ID: " + editedObject.getIdProducto());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+    public void onRowCancel(RowEditEvent event){
+        // No se requiere una acción específica en este ejemplo
+        FacesMessage msg = new FacesMessage("Edición cancelada", "ID: " + ((VentaDetalle) event.getObject()).getIdProducto());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
 }

@@ -57,8 +57,8 @@
                     Agrega productos a la tabla
                 </f:facet>
 
-                <p:ajax event="rowEdit" listener="#{dtAddRowView.onRowEdit}" update=":form:msgs"/>
-                <p:ajax event="rowEditCancel" listener="#{dtAddRowView.onRowCancel}" update=":form:msgs"/>
+                <p:ajax event="rowEdit" listener="#{beanIndex.onRowEdit}" update=":form:msgs"/>
+                <p:ajax event="rowEditCancel" listener="#{beanIndex.onRowCancel}" update=":form:msgs"/>
 
                 <p:column headerText="IdProducto">
                     <p:cellEditor>
