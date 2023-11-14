@@ -12,30 +12,34 @@
         <h:form id="form">
             <p:growl id="growl" showDetail="true" />
             <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
-            <p:panel header="Login" >
+            <p:panel header="Agregar" >
                 <div class="card">
                     <span class="ui-float-label">
-                        <p:outputLabel for="txtIdVenta" value="Venta"/>
-                        <p:inputText id="txtIdVenta" value="#{beanIndex.venta.idventa}"/>
-                    </span>
-                    <br></br>
-                    <div class="ui-float-label">
-                        <p:outputLabel for="dpfecha" value="Fecha" />
-                        <p:datePicker id="dpfecha" value="#{beanIndex.venta.fecha}" showIcon="true" />
-                    </div>
-                    <br></br>
-                    <span class="ui-float-label">
-                        <p:outputLabel value="Total"/>
-                        <p:inputText id="total" value="#{beanIndex.venta.total}"/>                        
+                        <p:outputLabel for="productId" value="ID del producto"/>
+                        <p:inputText id="productId" value="#{beanIndex.detalle.idProducto}" required="true"/>
                     </span>
                     <br></br>
                     <span class="ui-float-label">
-                        <p:commandButton actionListener="#{beanIndex.mostrar()}" update="growl" value="Mostrar" styleClass="mr-2" style="width: 10rem"/>
+                        <p:outputLabel for="productName" value="Nombre del producto"/>
+                        <p:inputText id="productName" value="#{beanIndex.detalle.descripcion}" required="true"/>
                     </span>
                     <br></br>
+                    <span class="ui-float-label">
+                        <p:outputLabel for="productPrice" value="Precio del producto"/>
+                        <p:inputText id="productPrice" value="#{beanIndex.detalle.precio}" required="true"/>
+                    </span>
+                    <br></br>
+                    <span class="ui-float-label">
+                        <p:outputLabel for="productQuantity" value="Cantidad del producto"/>
+                        <p:inputText id="productQuantity" value="#{beanIndex.detalle.cantidad}" required="true"/>
+                    </span>
+                    <br></br>
+                    <p:commandButton actionListener="#{beanIndex.guardar()}" update="growl" value="Save Product" styleClass="mr-2" style="width: 10rem"/>
+                    <br></br>
+                    
                     <div class="card">
                         <p:growl id="msgs" showDetail="true"/>
-                        
+
                         <div>
                             <div>
                                 <p:commandButton value="Agregar Producto" process="@this" update=":form:msgs"
@@ -43,59 +47,55 @@
                                                  styleClass="mr-2" style="width: 10rem"/>
                             </div>
                         </div>
-                        
-                        <p:dataTable id="detalleVenta" widgetVar="detalleVenta" var="producto" value="#{beanIndex.venta.ventasDetalle}"
-                                     editable="true">
-                            <f:facet name="header">
-                                Agrega productos a la tabla
-                            </f:facet>
-
-                            <p:ajax event="rowEdit" listener="#{dtAddRowView.onRowEdit}" update=":form:msgs"/>
-                            <p:ajax event="rowEditCancel" listener="#{dtAddRowView.onRowCancel}" update=":form:msgs"/>
-
-                            <p:column headerText="IdProducto">
-                                <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{producto.idProducto}"/></f:facet>
-                                    <f:facet name="input"><p:inputText id="modelInput" value="#{producto.idProducto}"
-                                                                       style="width:100%"/></f:facet>
-                                </p:cellEditor>
-                            </p:column>
-
-                            <p:column headerText="Descripcion">
-                                <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{producto.descripcion}"/></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{producto.descripcion}" style="width:100%"
-                                                                       label="Status"/></f:facet>
-                                </p:cellEditor>
-                            </p:column>
-
-                            <p:column headerText="Precio">
-                                <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{producto.precio}"/></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{producto.precio}" style="width:100%"
-                                                                       label="Price"/></f:facet>
-                                </p:cellEditor>
-                            </p:column>
-                            
-                            <p:column headerText="Cantidad">
-                                <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{producto.cantidad}"/></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{producto.cantidad}" style="width:100%"
-                                                                       label="Cant"/></f:facet>
-                                </p:cellEditor>
-                            </p:column>
-
-                            <p:column style="width:6rem">
-                                <p:rowEditor/>
-                            </p:column>
-                        </p:dataTable>
-                        
                     </div>
                 </div>
             </p:panel>
-            <br></br>            
             
+            <p:dataTable id="detalleVenta" widgetVar="detalleVenta" var="producto" value="#{beanIndex.venta.ventasDetalle}"
+                         editable="true">
+                <f:facet name="header">
+                    Agrega productos a la tabla
+                </f:facet>
+
+                <p:ajax event="rowEdit" listener="#{dtAddRowView.onRowEdit}" update=":form:msgs"/>
+                <p:ajax event="rowEditCancel" listener="#{dtAddRowView.onRowCancel}" update=":form:msgs"/>
+
+                <p:column headerText="IdProducto">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{producto.idProducto}"/></f:facet>
+                        <f:facet name="input"><p:inputText id="modelInput" value="#{producto.idProducto}"
+                                                           style="width:100%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Descripcion">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{producto.descripcion}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{producto.descripcion}" style="width:100%"
+                                                           label="Status"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Precio">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{producto.precio}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{producto.precio}" style="width:100%"
+                                                           label="Price"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Cantidad">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{producto.cantidad}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{producto.cantidad}" style="width:100%"
+                                                           label="Cant"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column style="width:6rem">
+                    <p:rowEditor/>
+                </p:column>
+            </p:dataTable>
         </h:form>
     </h:body>
 </html>
-
